@@ -3,7 +3,8 @@
     class="mx-auto"
     max-width="50%"
     style="margin-bottom: 70px; margin-top: 70px"
-    v-for="item in items" :key="item.date"
+    v-for="(item, index) in items"
+    :key="item.date"
   >
 
     <v-img
@@ -30,13 +31,13 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-        @click="show = !show"
+        :icon="expanded[index] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+        @click="expanded[index] = !expanded[index]"
       ></v-btn>
     </v-card-actions>
 
     <v-expand-transition>
-      <div v-show="show">
+      <div v-show="expanded[index]">
         <v-divider></v-divider>
         <v-card-text>
           {{ item.explanation }}
@@ -53,7 +54,7 @@ export default {
   data() {
     return {
       items: [],
-      show: false,
+      expanded: [],
     };
   },
  
@@ -73,6 +74,4 @@ export default {
       });
   },
 };
-</script>
-
-
+</script> 
