@@ -7,6 +7,7 @@ import { loadFonts } from './plugins/webfontloader'
 
 import Particles from "@tsparticles/vue3";
 import { loadSlim } from "@tsparticles/slim";
+import InfiniteScroll from 'vue-infinite-scroll'
 loadFonts()
 
 createApp(App)
@@ -17,5 +18,6 @@ createApp(App)
     init: async (engine) => {
       await loadSlim(engine);
     },
-  })
+  })   
+  .use(InfiniteScroll)
   .mount('#app')
