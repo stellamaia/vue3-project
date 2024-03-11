@@ -1,0 +1,100 @@
+<template>
+  <div style="  z-index: 1;  position: relative;">
+    <div class="app container" ref="scrollArea" @scroll="checkScroll">
+      <NavBar />
+      <div class="title-container">
+        <h1 style=" color: white;  font-weight: bold;  text-align: center; padding-top: 50px;">
+          Explore our universe
+        </h1>
+      </div>
+
+      <v-container v-if="isLoading">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-skeleton-loader class="mx-auto border" max-width="300" type="card-avatar, actions"></v-skeleton-loader>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-skeleton-loader class="mx-auto border" max-width="300" type="image, article"></v-skeleton-loader>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <div v-else>
+        <CardComponent :items="items" />
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted, onUnmounted } from "vue";
+import axios from "axios";
+import NavBar from "../components/NavBar.vue";
+import CardComponent from "../components/CardComponent.vue";
+
+export default {
+  components: {
+    NavBar,
+    CardComponent
+  },
+  setup() {
+    const items = ref([]);
+    const isLoading = ref(false);
+
+
+
+    const fetchData = () => {
+      if (isLoading.value) return;
+      isLoading.value = true;
+      axios
+        .get(
+          " https://api.nasa.gov/planetary/apod?api_key=4naEqAoTJRwkNt7zcQg3iudJTfjsRcW9FcUQ9XS4&count=12"
+        )
+        .then((response) => {
+          items.value = [...items.value, ...response.data];
+
+          isLoading.value = false;
+        })
+        .catch((error) => {
+          console.error("Erro ao obter itens da NASA:", error);
+          isLoading.value = false;
+        });
+    };
+
+
+    const handleScroll = () => {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight =
+        document.documentElement.clientHeight || window.innerHeight;
+      if (scrollTop + clientHeight >= scrollHeight - 12 && !isLoading.value) {
+        // isLoading.value = true;
+        fetchData();
+      }
+    };
+
+    onMounted(() => {
+      fetchData();
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+
+    return { items, isLoading };
+  },
+};
+</script>
+
+<style>
+.title-container {
+  z-index: -1;
+  position: static;
+  padding-top: 50px;
+}
+</style>
