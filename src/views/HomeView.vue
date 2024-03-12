@@ -1,6 +1,6 @@
 <template>
   <div style="  z-index: 1;  position: relative;">
-    <div class="app container" ref="scrollArea" @scroll="checkScroll">
+    <div class="app container" ref="scrollArea">
       <NavBar />
       <div class="title-container">
         <h1 style=" color: white;  font-weight: bold;  text-align: center; padding-top: 50px;">
@@ -9,15 +9,9 @@
       </div>
 
       <v-container v-if="isLoading">
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-skeleton-loader class="mx-auto border" max-width="300" type="card-avatar, actions"></v-skeleton-loader>
-          </v-col>
-
-          <v-col cols="12" md="6">
-            <v-skeleton-loader class="mx-auto border" max-width="300" type="image, article"></v-skeleton-loader>
-          </v-col>
-        </v-row>
+        <div class="text-center">
+          <v-progress-circular color="white" indeterminate></v-progress-circular>
+        </div>
       </v-container>
 
       <div v-else>
@@ -54,7 +48,6 @@ export default {
         )
         .then((response) => {
           items.value = [...items.value, ...response.data];
-
           isLoading.value = false;
         })
         .catch((error) => {
@@ -62,7 +55,6 @@ export default {
           isLoading.value = false;
         });
     };
-
 
     const handleScroll = () => {
       const scrollTop =
@@ -72,7 +64,6 @@ export default {
       const clientHeight =
         document.documentElement.clientHeight || window.innerHeight;
       if (scrollTop + clientHeight >= scrollHeight - 12 && !isLoading.value) {
-        // isLoading.value = true;
         fetchData();
       }
     };
@@ -96,5 +87,8 @@ export default {
   z-index: -1;
   position: static;
   padding-top: 50px;
+}
+.text-center {
+  padding-top: 200px;
 }
 </style>
