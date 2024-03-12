@@ -8,12 +8,11 @@
           </v-img>
 
           <div v-else class="no-image">
-
-            <video width="400" controls>
-              <source :src="item.url" type="video/mp4">
-              Your browser does not support HTML5 video.
-            </video>
-          </div>
+          <vue-plyr>
+            <iframe class="iframe" :src="item.url" allowfullscreen allowtransparency allow="autoplay"  >
+            </iframe>
+          </vue-plyr>
+          </div> 
           <v-card-title class="title-content">
             Title: {{ item.title }}
           </v-card-title>
@@ -46,6 +45,8 @@
 </template>
 <script>
 import { ref } from "vue";
+import VuePlyr from "vue-plyr";
+import 'vue-plyr/dist/vue-plyr.css';
 
 export default {
   name: 'CardComponent',
@@ -54,7 +55,9 @@ export default {
       type: Array
     }
   },
-
+  components: {
+    VuePlyr
+  },
   setup() {
     const expanded = ref([]);
 
@@ -76,12 +79,14 @@ export default {
 
       localStorage.setItem("favorites", JSON.stringify(favoriteItems));
       // Recarrega a página apenas se estiver na AboutView e o item for removido dos favoritos
-      if (window.location.pathname === '/about' && !item.isFavorite) {
-        location.reload();
-      }
-    };
-
-    return { expanded, toggleExpanded, toggleFavorite };
+   if(window.location.pathname === '/about' && !item.isFavorite) {
+   location.reload();
+   }
+    };  
+    const playerOptions = ref({
+      controls: ['play', 'progress', 'fullscreen'],
+    });
+    return { expanded, toggleExpanded, toggleFavorite, playerOptions  };
   },
 };
 </script>
@@ -107,11 +112,13 @@ export default {
 
 .no-image {
   height: 250px;
-  text-align: center;
-  top: 120px;
-  position: relative;
 }
-
+.iframe{
+  height: 100%; 
+  width: 100%;
+  border-radius: 20px;
+  border:none;
+}
 .image-container {
   border-radius: 20px;
   height: 250px;
