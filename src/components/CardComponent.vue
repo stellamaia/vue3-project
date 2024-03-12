@@ -15,11 +15,11 @@
             </video>
           </div>
           <v-card-title class="title-content">
-            Título: {{ item.title }}
+            Title: {{ item.title }}
           </v-card-title>
 
           <div class="data-favorite-container">
-            <v-card-subtitle class="data-container">Data: {{ item.date }}</v-card-subtitle>
+            <v-card-subtitle class="data-container">Date: {{ item.date }}</v-card-subtitle>
             <v-btn class="btn" :icon="item.isFavorite ? 'mdi-star' : 'mdi-star-outline'"
               @click="toggleFavorite(item)"></v-btn>
           </div>
