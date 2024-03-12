@@ -2,14 +2,17 @@
   <div>
     <v-row class="row-container">
 
-      <v-col class="col" xs="12" sm="5" md="4" lg="3" xl="3" xxl="3" v-for="(item, index) in items" :key="item.date">
+      <v-col class="col" xs="12" sm="6" md="4" lg="3" xl="3" xxl="3" v-for="(item, index) in items" :key="item.date">
         <v-card class="card">
           <v-img v-if="item.media_type === 'image'" class="image-container" :src="item.url" :alt="item.title" cover>
           </v-img>
 
           <div v-else class="no-image">
          
-   <p>No image</p> 
+            <video width="400" controls>
+              <source :src="item.url" type="video/mp4">
+              Your browser does not support HTML5 video.
+            </video>
           </div>
           <v-card-title class="title-content">
             Título: {{ item.title }}
@@ -48,11 +51,11 @@ export default {
   name: 'CardComponent',
   props: {
     items: {
-      type: []
+      type: Array
     }
   },
 
-  setup(props) {
+  setup() {
     const expanded = ref([]);
 
     const toggleExpanded = (index) => {
@@ -60,14 +63,22 @@ export default {
     };
     const toggleFavorite = (item) => {
       item.isFavorite = !item.isFavorite;
-      const favoriteItems = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
-      const updatedItems = [...favoriteItems, ...props.items.filter((i) => i.isFavorite)];
-      localStorage.setItem(
-        "favorites",
-        JSON.stringify(updatedItems)
-      );
-    };
+      let favoriteItems = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
+      
+      // Remove o item da lista de favoritos se já estiver lá
+      const index = favoriteItems.findIndex(favItem => favItem.date === item.date);
+      if (index !== -1) {
+        favoriteItems.splice(index, 1);
+      }
 
+      // Adiciona ou remove o item da lista de favoritos, dependendo do estado
+      if (item.isFavorite) {
+        favoriteItems.push(item);
+      }
+
+      localStorage.setItem("favorites", JSON.stringify(favoriteItems));
+    };
+    
     return { expanded, toggleExpanded, toggleFavorite };
   },
 };
@@ -110,17 +121,19 @@ position: relative;
 
 .row-container {
   z-index: -2;
-  position: absolute;
+  /* position: absolute; */
   justify-content: space-evenly;
+  
+  
 }
 
 .col {
-  padding: 0 20px;
+ padding: 0 20px; 
 }
 
 @media screen and (max-width: 600px) {
   .col {
-    padding: 0 20% !important;
+    /* padding: 0 20% !important; */
   }
 }
 
