@@ -3,7 +3,6 @@
     <v-app-bar class="app-bar" density="compact">
       <template v-slot:prepend>
         <router-link to="/">
-
         <img class="nasa-favicon" src="/favicon.ico" alt="logo-nasa">
       </router-link>
       </template>
