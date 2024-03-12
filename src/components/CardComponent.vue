@@ -8,7 +8,7 @@
           </v-img>
 
           <div v-else class="no-image">
-         
+
             <video width="400" controls>
               <source :src="item.url" type="video/mp4">
               Your browser does not support HTML5 video.
@@ -63,22 +63,24 @@ export default {
     };
     const toggleFavorite = (item) => {
       item.isFavorite = !item.isFavorite;
-      let favoriteItems = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [];
-      
+      let favoriteItems = JSON.parse(localStorage.getItem('favorites')) || [];
+
       // Remove o item da lista de favoritos se já estiver lá
       const index = favoriteItems.findIndex(favItem => favItem.date === item.date);
       if (index !== -1) {
         favoriteItems.splice(index, 1);
-      }
-
-      // Adiciona ou remove o item da lista de favoritos, dependendo do estado
-      if (item.isFavorite) {
+      } else {
+        // Adiciona o item à lista de favoritos se não estiver lá
         favoriteItems.push(item);
       }
 
       localStorage.setItem("favorites", JSON.stringify(favoriteItems));
+      // Recarrega a página apenas se estiver na AboutView e o item for removido dos favoritos
+      if (window.location.pathname === '/about' && !item.isFavorite) {
+        location.reload();
+      }
     };
-    
+
     return { expanded, toggleExpanded, toggleFavorite };
   },
 };
@@ -95,18 +97,19 @@ export default {
 .card {
   width: 100%;
   margin-bottom: 20px;
-  margin-top:20px;
+  margin-top: 20px;
   padding: 20px;
   border-radius: 20px;
   z-index: 1;
   background: #171717;
   color: white;
 }
-.no-image{
-height: 250px;
-text-align: center;
-top: 120px;
-position: relative;
+
+.no-image {
+  height: 250px;
+  text-align: center;
+  top: 120px;
+  position: relative;
 }
 
 .image-container {
@@ -123,12 +126,12 @@ position: relative;
   z-index: -2;
   /* position: absolute; */
   justify-content: space-evenly;
-  
-  
+
+
 }
 
 .col {
- padding: 0 20px; 
+  padding: 0 20px;
 }
 
 @media screen and (max-width: 600px) {
@@ -153,25 +156,31 @@ position: relative;
   opacity: inherit;
   font-weight: lighter;
 }
+
 .card-actions {
   padding: 0;
 }
+
 .explore-btn {
   font-size: 10px;
   color: #ffffffcf;
   font-weight: 900;
 }
+
 .btn {
   background: transparent;
   position: relative;
   top: -14px;
 }
+
 .v-btn--elevated {
   box-shadow: none !important;
 }
+
 .v-btn--elevated:focus {
   box-shadow: none !important;
 }
+
 .start-outline {
   color: white !important;
 }
