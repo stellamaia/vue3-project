@@ -1,6 +1,6 @@
 <template>
-  <div style="  z-index: 1;  position: relative;">
-    <div class="app container" ref="scrollArea" @scroll="checkScroll">
+  <div class="about-container">
+    <div class="app container" ref="scrollArea" >
       <NavBar />
       <div class="title-container">
         <h1 class="favorite-card-title">
@@ -56,6 +56,10 @@ export default {
 </script>
 
 <style>
+.about-container{
+  z-index: 1;  
+  position:inherit;
+}
 .title-container {
   z-index: -1;
   position: static;
