@@ -4,7 +4,7 @@
       <template v-slot:prepend>
         <router-link to="/">
 
-        <img class="nasa-favicon" src="/favicon-nasa.png" alt="Vue logo">
+        <img class="nasa-favicon" src="\favicon-nasa.png" alt="logo-nasa">
       </router-link>
       </template>
 
