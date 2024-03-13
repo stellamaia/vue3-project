@@ -11,7 +11,7 @@
         { APIs }
       </v-app-bar-title>
 
-      <router-link class="favorite-page" to="/about">Favorites</router-link>
+      <router-link class="favorite-page" to="/favorites">Favorites</router-link>
 
     </v-app-bar>
   </v-layout>
