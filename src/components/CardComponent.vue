@@ -8,11 +8,11 @@
           </v-img>
 
           <div v-else class="no-image">
-          <vue-plyr>
-            <iframe class="iframe" :src="item.url" allowfullscreen allowtransparency allow="autoplay"  >
-            </iframe>
-          </vue-plyr>
-          </div> 
+            <vue-plyr>
+              <iframe class="iframe" :src="item.url" allowfullscreen allowtransparency allow="autoplay"  >
+              </iframe>
+            </vue-plyr>
+          </div>
           <v-card-title class="title-content">
             Title: {{ item.title }}
           </v-card-title>
@@ -58,7 +58,7 @@ export default {
   components: {
     VuePlyr
   },
-  setup() {
+  setup( props, { emit }) {
     const expanded = ref([]);
 
     const toggleExpanded = (index) => {
@@ -78,11 +78,11 @@ export default {
       }
 
       localStorage.setItem("favorites", JSON.stringify(favoriteItems));
-      // Recarrega a página apenas se estiver na AboutView e o item for removido dos favoritos
-   if(window.location.pathname === '/about' && !item.isFavorite) {
-   location.reload();
-   }
-    };  
+      // Emite um evento 'removeFavorite' se estiver na página 'About' e o item for removido dos favoritos.
+        if (window.location.pathname === '/favorites') {
+        emit('removeFavorite', item);
+      }
+    };
     const playerOptions = ref({
       controls: ['play', 'progress', 'fullscreen'],
     });
@@ -113,12 +113,14 @@ export default {
 .no-image {
   height: 250px;
 }
-.iframe{
-  height: 100%; 
+
+.iframe {
+  height: 100%;
   width: 100%;
   border-radius: 20px;
-  border:none;
+  border: none;
 }
+
 .image-container {
   border-radius: 20px;
   height: 250px;
