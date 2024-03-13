@@ -1,6 +1,12 @@
-# vue3-project
 
-## Project setup
+Este projeto é uma aplicação Vue.js 3 que oferece aos usuários a oportunidade de explorar imagens da API Astronomy Picture of the Day (APOD) da NASA. 
+A homepage apresenta uma lista com scroll infinito de cards, exibindo 12 elementos por vez, integrando Vue.js e a API.
+
+## Clone o repositório
+```
+git clone https://github.com/stellamaia/vue3-project.git
+```
+### Project setup
 ```
 npm install
 ```
@@ -20,5 +26,7 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Tecnologias Utilizadas
+Vue.js
+Vue Router
+Axios
