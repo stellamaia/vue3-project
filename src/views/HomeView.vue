@@ -1,24 +1,21 @@
 <template>
-  <div style="  z-index: 1;  position: relative;">
+  <div class="home-container">
     <div class="app container" ref="scrollArea">
       <NavBar />
       <div class="title-container">
-        <h1 style=" color: white;  font-weight: bold;  text-align: center; padding-top: 50px;">
+        <h1 class="title">
           Explore our universe
         </h1>
       </div>
 
-      <v-container v-if="isLoading">
+      <v-container  v-show="isLoading">
         <div class="text-center">
-          <v-progress-circular color="white" indeterminate></v-progress-circular>
+          <v-progress-circular class="progress-circular" color="white" indeterminate></v-progress-circular>
         </div>
       </v-container>
 
-      <div v-else>
-        <CardComponent :items="items" />
-      </div>
-
-    </div>
+      <CardComponent :items="items" />
+    </div>  
   </div>
 </template>
 
@@ -36,8 +33,6 @@ export default {
   setup() {
     const items = ref([]);
     const isLoading = ref(false);
-
-
 
     const fetchData = () => {
       if (isLoading.value) return;
@@ -83,12 +78,29 @@ export default {
 </script>
 
 <style>
+.home-container{
+  z-index: 1;  
+  position: relative;
+}
 .title-container {
   z-index: -1;
   position: static;
   padding-top: 50px;
 }
+.title{
+  color: white;  
+  font-weight: bold; 
+  text-align: center; 
+  padding-top: 50px;
+}
 .text-center {
   padding-top: 200px;
+}
+.progress-circular{
+  position: fixed; 
+  height: 100px; 
+  right: 20px;
+  bottom: 10px;
+  z-index: 5;
 }
 </style>
